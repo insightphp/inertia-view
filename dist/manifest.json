@@ -1,7 +1,0 @@
-{
-  "packages/inertia-view-components/resources/js/main.ts": {
-    "file": "InertiaViewComponents.umd.js",
-    "src": "packages/inertia-view-components/resources/js/main.ts",
-    "isEntry": true
-  }
-}
