@@ -14,8 +14,25 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 
-abstract class Model implements HasInertiaProps
+abstract class Model implements HasInertiaProps, Arrayable
 {
+
+    /**
+     * Serializes model to array. This method is called by Inertia.
+     *
+     * @return array|\Closure|mixed|null
+     */
+    public function toArray()
+    {
+        $value = $this->toInertia();
+
+        if ($value instanceof \Closure) {
+            return app()->call($value);
+        }
+
+        return $value;
+    }
+
     /**
      * Serialize model for Inertia.
      *
@@ -62,12 +79,16 @@ abstract class Model implements HasInertiaProps
             return collect($value)->map(fn ($entry) => $this->prepareForInertia($entry))->all();
         }
 
-        if ($value instanceof Model) {
+        if ($value instanceof HasInertiaProps) {
             return $value->toInertia();
         }
 
         if ($value instanceof Arrayable) {
             return $value->toArray();
+        }
+
+        if ($value instanceof \Closure) {
+            return app()->call($value);
         }
 
         return $value;
