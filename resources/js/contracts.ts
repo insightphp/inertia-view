@@ -1,4 +1,4 @@
-export type ViewComponent<T = object> = T & {
+export type Component<T = object> = T & {
   _component: {
     name: string
   }
